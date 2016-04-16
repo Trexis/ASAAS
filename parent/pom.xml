@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.trexis</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0-BETA</version>
+    <packaging>pom</packaging>
+
+    <name>treXis :: ASaaS :: Parent</name>
+    <description>A module that defines parent POM that is extended by all other modules.</description>
+
+    <properties>
+        <!--Project name-->
+        <project>asaas</project>
+
+        <!-- Standard Maven proeprties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.resources.escapeString>\</maven.resources.escapeString>
+        <maven.resources.includeEmptyDirs>true</maven.resources.includeEmptyDirs>
+
+        <!-- Module folders -->
+        <parent.dir>${project.basedir}</parent.dir>
+
+		<!-- Spring -->
+		<spring.version>4.0.4.RELEASE</spring.version>
+		<spring.security.version>4.0.4.RELEASE</spring.security.version>
+		<spring.security.oauth.version>2.0.9.RELEASE</spring.security.oauth.version>
+		
+	</properties>
+
+   
+</project>

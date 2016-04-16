@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.trexis</groupId>
+    <artifactId>asaas</artifactId>
+    <version>1.0-BETA</version>
+    <packaging>pom</packaging>
+
+    <name>treXis :: ASaaS :: Aggregator</name>
+    <description>A module that aggregates all other project modules.</description>
+
+    <properties>
+        <project>asaas</project>
+    </properties>
+
+    <modules>
+        <module>parent</module>
+        <module>services</module>
+        <module>webapps</module>
+    </modules>
+
+</project>
