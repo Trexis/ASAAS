@@ -21,7 +21,7 @@
 
     <modules>
         <module>admin</module>
-        <module>site</module>
+        <module>services</module>
     </modules>  
 
 </project>
