@@ -34,6 +34,6 @@
     
     
     <Environment name="asaas/config" override="false" type="java.lang.String" value="${config.path}/asaas.properties"/>
-	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="4" maxIdle="2" maxWait="5000" name="jdbc/asaasDS" password="${db.password}" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/bb_portalfoundation_55_core?cacheServerConfiguration=true" username="${db.username}" validationQuery="select 1"/>
+	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="4" maxIdle="2" maxWait="5000" name="jdbc/asaasDS" password="${db.password}" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/asaas?cacheServerConfiguration=true" username="${db.username}" validationQuery="select 1"/>
     
 </Context>
