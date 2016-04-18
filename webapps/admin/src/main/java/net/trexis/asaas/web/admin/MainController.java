@@ -1,4 +1,4 @@
-package net.trexis.asaas.web;
+package net.trexis.asaas.web.admin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

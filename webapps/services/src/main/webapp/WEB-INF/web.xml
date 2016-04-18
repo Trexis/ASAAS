@@ -19,8 +19,10 @@
 	</servlet-mapping>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>net.trexis.asaas.web.service.ASaaSServletContextListener</listener-class>
 	</listener>
 
         <!-- Loads Spring Security config file -->
