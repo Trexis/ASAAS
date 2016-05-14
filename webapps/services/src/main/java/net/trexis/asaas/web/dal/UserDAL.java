@@ -8,7 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import net.trexis.asaas.web.security.User;
+import net.trexis.asaas.web.commons.ItemType;
+import net.trexis.asaas.web.model.User;
 
 public class UserDAL extends BaseDAL {
 
@@ -22,8 +23,9 @@ public class UserDAL extends BaseDAL {
 	public User getUser(String username) throws Exception{
         JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
         String sql = "SELECT * from users where username='" + username + "';";
-        User user = jdbcTemplate.queryForObject(sql, rowMapper());
-		return user;
+        User item = jdbcTemplate.queryForObject(sql, rowMapper());
+        item.setProperties(this.listProperties(item.getId(), ItemType.User));
+		return item;
 	}
 	
 	private RowMapper<User> rowMapper(){

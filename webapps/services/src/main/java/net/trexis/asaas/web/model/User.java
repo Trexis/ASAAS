@@ -1,17 +1,20 @@
-package net.trexis.asaas.web.security;
+package net.trexis.asaas.web.model;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public class User implements Principal {
+import com.google.gson.Gson;
+
+public class User extends BaseModel implements Principal  {
 
 	private int id;
 	private String username;
 	private String password;
 	private GrantedAuthority authority;
 	private Boolean active;
-	
+	private List<Property> properties;
 	
 	public int getId() {
 		return id;
@@ -57,4 +60,13 @@ public class User implements Principal {
 		return username;
 	}
 
+	public List<Property> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<Property> properties) {
+		this.properties = properties;
+	}
+
+	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.trexis.asaas.web.configuration.ASaaSProperties;
 import net.trexis.asaas.web.dal.UserDAL;
+import net.trexis.asaas.web.model.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

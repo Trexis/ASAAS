@@ -7,6 +7,7 @@
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 	<beans:bean id="asaasProperties" class="net.trexis.asaas.web.configuration.ASaaSProperties"/>
+	<beans:bean id="servicesProxy" class="net.trexis.asaas.web.proxy.ServicesProxy"/>
 
 	<http auto-config="true" use-expressions="true" >
 		<intercept-url pattern="/dashboard**" access="isAuthenticated()" />
@@ -14,8 +15,8 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider ref="databaseAuthProvider"/>
+		<authentication-provider ref="servicesAuthProvider"/>
 	</authentication-manager>
-	<beans:bean id="databaseAuthProvider" class="net.trexis.asaas.web.security.DatabaseAuthenticationProvider"/>
+	<beans:bean id="servicesAuthProvider" class="net.trexis.asaas.web.security.ServicesAuthenticationProvider"/>
 
 </beans:beans>

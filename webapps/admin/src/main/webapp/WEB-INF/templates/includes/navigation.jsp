@@ -250,6 +250,7 @@
 	                <li>
 	                    <a href="#"><i class="fa fa-files-o fa-fw"></i> Active Sessions</a>
 	                </li>
+	                <sec:authorize access="hasRole('ADMIN')">
 	                <li>
 	                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Configuration<span class="fa arrow"></span></a>
 	                    <ul class="nav nav-second-level">
@@ -262,6 +263,7 @@
 	                    </ul>
 	                    <!-- /.nav-second-level -->
 	                </li>
+	                </sec:authorize>
 	            </ul>
 	        </div>
 	        <!-- /.sidebar-collapse -->
