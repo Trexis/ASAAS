@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+		<groupId>net.trexis</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0-BETA</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>configuration</artifactId>
+    <name>treXis :: ASaaS :: Configuration</name>
+    <description>All configuration.</description>
+	<packaging>jar</packaging>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+					<execution>
+                        <id>local</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${project.build.directory}/configuration-${project.version}/local</outputDirectory>
+                            <filters>
+                                <filter>${basedir}/src/main/filters/local.properties</filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>ec2</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${project.build.directory}/configuration-${project.version}/ec2</outputDirectory>
+                            <filters>
+                                <filter>${basedir}/src/main/filters/ec2.properties</filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+				</executions>
+            </plugin>
+	
+        </plugins>
+    </build>
+</project>

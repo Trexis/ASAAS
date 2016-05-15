@@ -6,8 +6,6 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
-	<beans:bean id="asaasProperties" class="net.trexis.asaas.web.configuration.ASaaSProperties"/>
-
 	<http auto-config="true" use-expressions="true" >
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<csrf disabled="true"/>
@@ -16,7 +14,7 @@
 	<authentication-manager>
 		<authentication-provider ref="databaseAuthProvider"/>
 	</authentication-manager>
-	<beans:bean id="databaseAuthProvider" class="net.trexis.asaas.web.security.DatabaseAuthenticationProvider"/>
+	<beans:bean id="databaseAuthProvider" class="net.trexis.asaas.web.service.security.DatabaseAuthenticationProvider"/>
 
 
 </beans:beans>

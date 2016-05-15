@@ -1,16 +1,26 @@
 package net.trexis.asaas.web.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
-import net.trexis.asaas.web.model.ServicesSession;
-import net.trexis.asaas.web.model.User;
+import net.trexis.asaas.web.commons.ResponseStatus;
+import net.trexis.asaas.web.commons.Utilities;
+import net.trexis.asaas.web.service.dal.RepositoryDAL;
+import net.trexis.asaas.web.service.model.Repository;
+import net.trexis.asaas.web.service.model.ServicesSession;
+import net.trexis.asaas.web.service.model.User;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 @Controller
 public class MainController {
@@ -26,7 +36,6 @@ public class MainController {
 		return model;
 
 	}
-	
 
 	@RequestMapping(value = { "/session" }, method = RequestMethod.GET)
 	public @ResponseBody String session(HttpServletRequest httpServletRequest) {
@@ -40,4 +49,34 @@ public class MainController {
 		return user.toJson();
 	}
 
+	@RequestMapping(value = { "/repository" }, method = RequestMethod.GET)
+	public @ResponseBody String repositoryGet(@RequestParam(value="id", required=false) Integer id, Authentication authentication) throws Exception {
+		Gson gson = new Gson();
+		User user = (User)authentication.getPrincipal();
+		RepositoryDAL repodal = new RepositoryDAL();
+		if(id==null){
+			List<Repository> repositories = new ArrayList<Repository>();
+			if(user.getAuthority().getAuthority().equals("ROLE_ADMIN")){
+				repositories = repodal.list();
+			} else {
+				repositories = repodal.list(user.getId());
+			}
+			return Utilities.responseWrapper(ResponseStatus.success, gson.toJsonTree(repositories));
+		} else {
+			Repository repo = repodal.getRepository(id);
+			return Utilities.responseWrapper(ResponseStatus.success, gson.toJsonTree(repo));
+		}
+	}
+	
+	@RequestMapping(value = { "/repository" }, method = RequestMethod.POST)
+	public @ResponseBody String repositoryPost(Authentication authentication) throws Exception {
+		Gson gson = new Gson();
+		User user = (User)authentication.getPrincipal();
+		RepositoryDAL repodal = new RepositoryDAL();
+		Repository repo = new Repository();
+		repo.setUserid(user.getId());
+		repo.setName("test");
+		repodal.update(repo);
+		return Utilities.responseWrapper(ResponseStatus.success, gson.toJsonTree(repo));
+	}
 }
