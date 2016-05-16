@@ -4,7 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.trexis.asaas.web.admin.model.Component;
+import net.trexis.asaas.web.commons.ItemNotFoundException;
+import net.trexis.asaas.web.commons.ResponseStatus;
+import net.trexis.asaas.web.commons.Utilities;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 @Controller
 public class MainController {
@@ -70,9 +77,16 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/component/{componentName}", method = RequestMethod.GET)
-	public @ResponseBody String component(@PathVariable String componentName) throws Exception {
-		Component component = new Component(componentName);
-		return component.toJson();
+	public @ResponseBody ResponseEntity<String> component(@PathVariable String componentName) {
+		Gson gson = new Gson();
+		try{
+			Component component = new Component(componentName);
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.success, gson.toJsonTree(component));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.OK);
+		} catch(Exception ex){
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.EXPECTATION_FAILED);
+		}
 	}
 	
 }

@@ -245,7 +245,7 @@
 	                    <a class="active" href="dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
 	                </li>
 	                <li>
-	                    <a href="#"><i class="fa fa-sitemap fa-fw"></i> My Respositories</a>
+	                    <a href="javascript:asaas.loadComponent('repositorylist')"><i class="fa fa-sitemap fa-fw"></i> My Respositories</a>
 	                </li>
 	                <li>
 	                    <a href="#"><i class="fa fa-files-o fa-fw"></i> Active Sessions</a>
