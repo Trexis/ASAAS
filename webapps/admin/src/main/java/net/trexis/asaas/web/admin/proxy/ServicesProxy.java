@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+
+import net.trexis.asaas.web.admin.model.User;
 import net.trexis.asaas.web.configuration.ASaaSProperties;
 
 import org.apache.commons.codec.binary.Base64;
@@ -64,8 +66,9 @@ public class ServicesProxy extends RestTemplate {
 		if(SecurityContextHolder.getContext()!=null){
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if(auth!=null){
-				this.username = auth.getName();
-				this.password = (String) auth.getCredentials();
+				User user = (User)auth.getPrincipal();
+				this.username = user.getName();
+				this.password = user.getPassword();
 			}
 		}
 	}

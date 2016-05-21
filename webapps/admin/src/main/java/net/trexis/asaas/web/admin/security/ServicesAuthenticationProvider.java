@@ -3,6 +3,7 @@ package net.trexis.asaas.web.admin.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.trexis.asaas.web.admin.model.User;
 import net.trexis.asaas.web.admin.proxy.ServicesProxy;
 
 import org.slf4j.Logger;
@@ -27,16 +28,22 @@ public class ServicesAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken)authentication;
 		try{
+			String username = authentication.getName();
+			String password = (String)authentication.getCredentials();
 			ServicesProxy servicesProxy = new ServicesProxy();
-			servicesProxy.setCredentials(authentication.getName(), (String)authentication.getCredentials());
+			servicesProxy.setCredentials(username, password);
 
 			Gson gson = new Gson();
 			JsonObject jsonobject = gson.fromJson(servicesProxy.restGet("/user"), JsonObject.class);
 			JsonObject authority = (JsonObject)jsonobject.get("authority");
 
+			User user = new User(username, password);
+			user.setUserdata(jsonobject);
+
 			List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 			grantedAuthorities.add(new SimpleGrantedAuthority(authority.get("role").getAsString()));
-			auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), auth.getCredentials(), grantedAuthorities);
+			
+			auth = new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), grantedAuthorities);
 		
 		} catch(Exception ex){
 			auth = null;

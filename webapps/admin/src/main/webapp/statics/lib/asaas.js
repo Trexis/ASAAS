@@ -2,7 +2,7 @@ window.asaas = {};
 window.asaas.container = "#page-wrapper";
 window.asaas.model = [];
 window.asaas.loadComponent = function(componentName, append){
-	var url = ctx + "/component/" + componentName;
+	var url = asaas.ctx + "/component/" + componentName;
 	var dataAjax = $.ajax({
 		url: url,
 		type: 'GET',
@@ -26,12 +26,12 @@ window.asaas.loadComponent = function(componentName, append){
                 if(type=="js"){
                 	var script = document.createElement("script");
                 	script.type = 'text/javascript';
-                	script.src = ctx + url;
+                	script.src = asaas.ctx + url;
                 	$(asaas.container).append(script);
                 	asaas.model[componentName].init(htmlcontainer);
                 } else {
                 	var link=document.createElement("link");
-                	link.href= ctx + url;
+                	link.href= asaas.ctx + url;
                 	$(asaas.container).append(link);
                 }
             });
@@ -49,5 +49,8 @@ window.asaas.notify = function(type, message, reason){
 	html += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
 	html += message
 	html += "</div>";
-	$(asaas.container).prepend(html);
+	
+	var $alert = $(html);
+	$(asaas.container).prepend($alert);
+	$alert.delay(5000).fadeOut(400)
 }

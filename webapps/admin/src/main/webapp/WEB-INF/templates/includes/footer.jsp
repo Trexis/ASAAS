@@ -5,6 +5,10 @@
     <!-- jQuery -->
     <script src="<%=contextRoot%>/statics/theme/bower_components/jquery/dist/jquery.min.js"></script>
 
+    <!-- jQuery -->
+    <script src="<%=contextRoot%>/statics/lib/mustache/mustache.min.js"></script>
+
+
     <!-- Bootstrap Core JavaScript -->
     <script src="<%=contextRoot%>/statics/theme/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -16,4 +20,7 @@
     
     <!-- ASaaS JavaScript -->
     <script src="<%=contextRoot%>/statics/lib/asaas.js"></script>
-	<script>var ctx = "<%=contextRoot%>"</script>    
+	<script>
+		if(typeof(asaas)=="undefined") window.asaas = {};
+		asaas.ctx = "<%=contextRoot%>";
+	</script>    

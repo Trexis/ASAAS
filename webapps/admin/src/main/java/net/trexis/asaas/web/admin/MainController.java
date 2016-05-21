@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.trexis.asaas.web.admin.model.Component;
+import net.trexis.asaas.web.admin.proxy.ServicesProxy;
 import net.trexis.asaas.web.commons.ItemNotFoundException;
 import net.trexis.asaas.web.commons.ResponseStatus;
 import net.trexis.asaas.web.commons.Utilities;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Controller
 public class MainController {
@@ -88,5 +90,40 @@ public class MainController {
 			return new ResponseEntity<String>(jsonresponse,HttpStatus.EXPECTATION_FAILED);
 		}
 	}
+
+	@RequestMapping(value = "/services/**", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> service(HttpServletRequest request) {
+		Gson gson = new Gson();
+		try{
+			String method = request.getMethod();
+			String serviceurl = getServiceURLFromRequest(request);
+			
+			ServicesProxy servicesProxy = new ServicesProxy();
+			JsonObject jsonobject;
+			if(method.equals("GET")){
+				jsonobject = gson.fromJson(servicesProxy.restGet(serviceurl), JsonObject.class);
+			} else {
+				jsonobject = gson.fromJson(servicesProxy.restPost(serviceurl), JsonObject.class);
+			}
+			return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+		} catch(Exception ex){
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
+		}
+		
+	}
 	
+	private String getServiceURLFromRequest(HttpServletRequest request){	
+		String requestURL = request.getRequestURI();
+		String queryString = request.getQueryString();
+		String response = "";
+		if (queryString == null) {
+			response = requestURL.toString();
+		} else {
+			response = requestURL += "?" + queryString;
+		}		
+		response = response.substring(request.getContextPath().length() + "services/".length());
+		return response;
+	}
+
 }
