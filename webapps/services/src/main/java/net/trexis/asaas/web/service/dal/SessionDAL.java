@@ -18,16 +18,22 @@ import net.trexis.asaas.web.service.model.User;
 public class SessionDAL extends BaseDAL {
 
 	public List<RepositorySession> list() throws Exception {
+		return list(true);
+	}
+	public List<RepositorySession> list(boolean includeProperties) throws Exception {
         String sql = "SELECT * from sessions";
-        return list(sql);
+        return list(sql,includeProperties);
 	}	
 
 	public List<RepositorySession> list(int userId) throws Exception {
+		return list(userId, true);
+	}
+	public List<RepositorySession> list(int userId, boolean includeProperties) throws Exception {
         String sql = "SELECT * from sessions s, repositories r where s.repositoryid = r.id and r.userid=" + userId;
-        return list(sql);
+        return list(sql,includeProperties);
 	}	
 
-	public List<RepositorySession> list(String sql) throws Exception {
+	public List<RepositorySession> list(String sql, boolean includeProperties) throws Exception {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
         List<RepositorySession> listItems = jdbcTemplate.query(sql, rowMapper());
         return listItems;

@@ -6,8 +6,41 @@ asaas.components.Repository = function(){
 };
 asaas.components.Repository.prototype 		= {};
 //must implement a .init for the asaas library to call it.
-asaas.components.Repository.prototype.init	= function(container){
-	console.log(container)
+asaas.components.Repository.prototype.init	= function(container, parameters){
+
+	var mustache_template = $("script[data-template='repositoryitem_template']", container).html();
+	var $formcontainer = $(".form-horizontal", container);
+	$formcontainer.empty();
+
+	if(parameters.id==null){
+		var $htmlresults = $(Mustache.to_html(mustache_template, {}));
+		$formcontainer.append($htmlresults);
+	} else {
+		var url = asaas.servicesctx + "/repository?id=" + parameters.id;
+		var dataAjax = $.ajax({
+			url: url,
+			type: 'GET',
+			dataType: 'json',
+			success: function(response){
+				//Convert items to properties, and add additional objects to use
+				//in mustache
+				var item = response.data;
+				item.style = "";
+				asaas.convertToPropertiesObject(item)
+
+				//Render the list of items using mustach
+				var $htmlresults = $(Mustache.to_html(mustache_template, response.data));
+				$formcontainer.append($htmlresults);
+				
+				
+			},
+		    error: function(ajaxErrorObject){
+				console.log(this)
+		    	asaas.notify("danger", "Unable to load repository", ajaxErrorObject);
+		    }
+		});
+		
+	}
 }
 
 //This ties it to the model on load.  The asaas library will call .init

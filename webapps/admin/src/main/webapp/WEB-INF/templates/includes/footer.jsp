@@ -20,7 +20,3 @@
     
     <!-- ASaaS JavaScript -->
     <script src="<%=contextRoot%>/statics/lib/asaas.js"></script>
-	<script>
-		if(typeof(asaas)=="undefined") window.asaas = {};
-		asaas.ctx = "<%=contextRoot%>";
-	</script>    

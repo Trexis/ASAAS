@@ -1,12 +1,20 @@
-<div>
-	<h1>Repositories</h1>
+<div class="repositorylist">
+	<h1>My Repositories</h1>
+	<ul class="list-group">
+	
+	</ul>
+	<script data-template="repositorylist_template" type="text/html">
+{{#.}} 
+  <li class="list-group-item {{style}}">
+	<span class="pull-right">
+		<button type="button" class="btn btn-default btn-edit" data-id="{{id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+		<button type="button" class="btn btn-default btn-delete" data-id="{{id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+	</span>
+    <h4 class="list-group-item-heading">{{name}}</h4>
+	{{#properties.description}} 
+    <p class="list-group-item-text">{{properties.description}}</p>
+	{{/properties.description}} 
+  </li>
+{{/.}} 
+	</script>
 </div>
-<div class="list-group">
-
-</div>
-<script data-template="repositorylist" type="text/html">
-  <a href="#" class="list-group-item active">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</script>

@@ -21,7 +21,8 @@
 	            <div class="container-fluid">
 	                <div class="row">
 	                    <div class="col-lg-12">
-	                        <h1 class="page-header">Dashboard</h1>
+	                    	<div id="notificationscontainer"></div>
+	                    	<div id="componentscontainer"></div>
 	                    </div>
 	                    <!-- /.col-lg-12 -->
 	                </div>
@@ -33,6 +34,16 @@
 	
 	    </div>
 	    <!-- /#wrapper -->	
+		<jsp:include page="includes/model.jsp"/>
 		<jsp:include page="includes/footer.jsp"/>
+		<jsp:include page="includes/user.jsp"/>
+		<script>
+			if(typeof(asaas)=="undefined") window.asaas = {};
+			asaas.components_container_name = "#componentscontainer";
+			asaas.notifications_container_name = "#notificationscontainer";
+			asaas.ctx = "<%=contextRoot%>";
+			asaas.servicesctx = "<%=contextRoot%>/services";
+			asaas.debug = true;
+		</script>    
 	</body>
 </html>

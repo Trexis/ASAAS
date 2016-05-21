@@ -10,7 +10,6 @@ import net.trexis.asaas.web.admin.model.User;
 import net.trexis.asaas.web.configuration.ASaaSProperties;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

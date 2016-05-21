@@ -17,16 +17,27 @@ import net.trexis.asaas.web.service.model.User;
 public class RepositoryDAL extends BaseDAL {
 
 	public List<Repository> list() throws Exception{
+        return list(true);
+	}
+	public List<Repository> list(boolean includeProperties) throws Exception{
         String sql = "SELECT * from repositories";
-        return list(sql);
+        return list(sql, includeProperties);
 	}
 	public List<Repository> list(int userId) throws Exception{
-        String sql = "SELECT * from repositories where userid=" + userId;
-		return list(sql);
+		return list(userId, true);
 	}
-	private List<Repository> list(String sql) throws Exception {
+	public List<Repository> list(int userId, boolean includeProperties) throws Exception{
+        String sql = "SELECT * from repositories where userid=" + userId;
+		return list(sql, true);
+	}
+	private List<Repository> list(String sql, boolean includeProperties) throws Exception {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
         List<Repository> listItems = jdbcTemplate.query(sql, rowMapper());
+        if(includeProperties){
+        	for(Repository item: listItems){
+        		item.setProperties(this.listProperties(item.getId(), ItemType.Repository));
+        	}
+        }
         return listItems;
     }
 	
@@ -50,7 +61,6 @@ public class RepositoryDAL extends BaseDAL {
 	
 	private RowMapper<Repository> rowMapper(){
 		return new RowMapper<Repository>() {
- 
             public Repository mapRow(ResultSet rs, int rowNumber) throws SQLException {
             	Repository repository = new Repository();
             	repository.setId(rs.getInt("id"));

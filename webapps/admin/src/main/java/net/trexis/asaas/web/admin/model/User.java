@@ -32,8 +32,14 @@ public class User extends BaseModel implements Principal {
 		this.password = password;
 	}
 
-	public JsonObject getUserdata() {
+	public JsonObject getUserdataWithPassword() {
 		return userdata;
+	}
+	//We remove the password, as this is written out to the javascript DOM in the dashboard
+	public JsonObject getUserdata() {
+		JsonObject tempuserdata = this.userdata;
+		tempuserdata.remove("password");
+		return tempuserdata;
 	}
 
 	public void setUserdata(JsonObject userdata) {
