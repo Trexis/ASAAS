@@ -1,12 +1,19 @@
 package net.trexis.asaas.web.service.dal;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import net.trexis.asaas.web.commons.ItemNotFoundException;
@@ -41,15 +48,34 @@ public class RepositoryDAL extends BaseDAL {
         return listItems;
     }
 	
+	public void delete(Repository item) throws Exception {
+		deleteAllProperties(item.getId(), ItemType.Repository);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+		String deletesql = "delete from repositories where id=" + item.getId();
+		jdbcTemplate.execute(deletesql);
+	}
+	
 	public void update(Repository item) throws Exception{
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-		if(item.getId()==0){
-			String SQL = "insert into repositories (userid, name) values (?, ?);";
-			jdbcTemplate.update(SQL, item.getUserid(), item.getName());
+		if(item.getId()==-1){
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			String sql = "insert into repositories (userid, name) values (?, ?);";
+			PreparedStatementCreator psc =  new PreparedStatementCreator() {
+		        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+		            PreparedStatement ps = connection.prepareStatement(sql, new String[] {"id"});
+		            ps.setInt(1, item.getUserid());
+		            ps.setString(2, item.getName());
+		            return ps;
+		        }
+		    };
+			jdbcTemplate.update(psc, keyHolder);
+			item.setId(keyHolder.getKey().intValue());
 		} else {
-			String SQL = "update repositories set userid = ?, name= ? where id=?;";
-			jdbcTemplate.update( SQL, item.getUserid(), item.getName(), item.getId());
+			//We don't update the userid, since we don't allow change in ownership
+			String SQL = "update repositories set name= ? where id=?;";
+			jdbcTemplate.update( SQL, item.getName(), item.getId());
 		}
+		this.updateProperties(item.getId(), ItemType.Repository, item.getProperties());
 	}
 	
 	public Repository getRepository(int repositoryId) throws Exception{

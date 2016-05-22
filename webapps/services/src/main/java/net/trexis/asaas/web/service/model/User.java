@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.google.gson.Gson;
 
@@ -12,7 +13,7 @@ public class User extends BaseModel implements Principal  {
 	private int id;
 	private String username;
 	private String password;
-	private GrantedAuthority authority;
+	private SimpleGrantedAuthority authority;
 	private Boolean active;
 	private List<Property> properties;
 	
@@ -48,12 +49,16 @@ public class User extends BaseModel implements Principal  {
 		this.password = password;
 	}
 
-	public GrantedAuthority getAuthority() {
+	public SimpleGrantedAuthority getAuthority() {
 		return authority;
 	}
 
-	public void setAuthority(GrantedAuthority authority) {
+	public void setAuthority(SimpleGrantedAuthority authority) {
 		this.authority = authority;
+	}
+	
+	public boolean isAdmin(){
+		return this.authority.getAuthority().equals("ROLE_ADMIN");
 	}
 
 	public String getName() {

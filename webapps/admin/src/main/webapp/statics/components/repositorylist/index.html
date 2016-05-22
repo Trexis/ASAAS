@@ -1,5 +1,8 @@
 <div class="repositorylist">
-	<h1>My Repositories</h1>
+	<div class="pull-right">
+		<button type="button" class="btn btn-default btn-new">Create New Site</button>
+	</div>
+	<h1>My Sites</h1>
 	<ul class="list-group">
 	
 	</ul>
@@ -10,9 +13,12 @@
 		<button type="button" class="btn btn-default btn-edit" data-id="{{id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
 		<button type="button" class="btn btn-default btn-delete" data-id="{{id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 	</span>
-    <h4 class="list-group-item-heading">{{name}}</h4>
+    <h4 class="list-group-item-heading text-info">{{name}}</h4>
+	{{#properties.homeurl}} 
+    <p class="list-group-item-text"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> {{properties.homeurl}}</p>
+	{{/properties.homeurl}} 
 	{{#properties.description}} 
-    <p class="list-group-item-text">{{properties.description}}</p>
+    <p class="list-group-item-text"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{properties.description}}</p>
 	{{/properties.description}} 
   </li>
 {{/.}} 

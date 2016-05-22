@@ -1,3 +1,73 @@
 <div class="dashboard">
-	<h1>Dashboard</h1>
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Dashboard</h1>
+		</div>
+	</div>
+
+    <div class="row">
+        <div class="col-lg-4">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <div class="row">
+	                    <div class="col-xs-3">
+	                        <i class="fa fa-sitemap fa-5x"></i>
+	                    </div>
+	                    <div class="col-xs-9 text-right">
+	                        <div>Sites define a web site that should be returned as a service, and also other features like session management, api management, and cache management.  Additionally it also define the security strategy to use for authenticating the visitors to the site.</div>
+	                    </div>
+	                </div>
+	            </div>
+	            <a href="javascript:asaas.loadComponent('repositorylist',false,null,{'all':false})">
+	                <div class="panel-footer">
+	                    <span class="pull-left">View Sites</span>
+	                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                    <div class="clearfix"></div>
+	                </div>
+	            </a>
+	        </div>        
+        </div>
+        <div class="col-lg-4">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <div class="row">
+	                    <div class="col-xs-3">
+	                        <i class="fa fa-users fa-5x"></i>
+	                    </div>
+	                    <div class="col-xs-9 text-right">
+	                        <div>System Users are allowed to invoke the managed sites as a service.  Note that these are not the site user that authenticate to access the site itself, but instead users granted access to invoke the site as a service.  Users are only granted access to their sites.</div>
+	                    </div>
+	                </div>
+	            </div>
+	            <a href="javascript:asaas.loadComponent('userlist')">
+	                <div class="panel-footer">
+	                    <span class="pull-left">View System Users</span>
+	                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                    <div class="clearfix"></div>
+	                </div>
+	            </a>
+	        </div>   
+        </div>
+        <div class="col-lg-4">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <div class="row">
+	                    <div class="col-xs-3">
+	                        <i class="fa fa-files-o fa-5x"></i>
+	                    </div>
+	                    <div class="col-xs-9 text-right">
+	                        <div>Every request to a site as a service is managed as a session.  Session management will reuse the last successful session for subsequent requests to the site.  Users are not prompted to provide authentication credentials when this session expire or fails.</div>
+	                    </div>
+	                </div>
+	            </div>
+	            <a href="javascript:asaas.loadComponent('sessionlist',false,null,{'all':true})">
+	                <div class="panel-footer">
+	                    <span class="pull-left">View Sessions</span>
+	                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                    <div class="clearfix"></div>
+	                </div>
+	            </a>
+	        </div>          
+        </div>
+   	</div>
 </div>

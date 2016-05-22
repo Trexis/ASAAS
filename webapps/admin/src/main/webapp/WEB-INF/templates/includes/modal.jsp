@@ -13,7 +13,7 @@
       	Loading...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary btn-save">Save</button>
       </div>
     </div><!-- /.modal-content -->

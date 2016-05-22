@@ -1,21 +1,21 @@
 if(typeof(asaas)=="undefined") window.asaas = {};
 if(typeof(window.asaas.components)=="undefined") window.asaas.components = {};
 
-asaas.components.RepositoryList = function(){
+asaas.components.UserList = function(){
 	this.container;
 	this.params;
 };
-asaas.components.RepositoryList.prototype 		= {};
+asaas.components.UserList.prototype 		= {};
 
 //must always implement a .init for the asaas library to call it.
-asaas.components.RepositoryList.prototype.init	= function(container, parameters){
+asaas.components.UserList.prototype.init	= function(container, parameters){
 	this.container = container;
 	var self = this;
 	
 	//We only set parameters when component created
 	if(typeof(parameters)!="undefined") this.params = parameters;
 	
-	var url = asaas.servicesctx + "/repository?all=" + this.params.all;
+	var url = asaas.servicesctx + "/user";
 	var dataAjax = $.ajax({
 		url: url,
 		contentType: "application/json",
@@ -30,7 +30,7 @@ asaas.components.RepositoryList.prototype.init	= function(container, parameters)
 			});
 
 			//Render the list of items using mustach
-			var mustache_template = $("script[data-template='repositorylist_template']", container).html();
+			var mustache_template = $("script[data-template='userlist_template']", container).html();
 			var $htmlresults = $(Mustache.to_html(mustache_template, response.data));
 			$(".list-group", container).empty();
 			$(".list-group", container).append($htmlresults);
@@ -52,33 +52,33 @@ asaas.components.RepositoryList.prototype.init	= function(container, parameters)
 			
 		},
 	    error: function(ajaxErrorObject){
-	    	asaas.notify("danger", "Unable to load list of sites", ajaxErrorObject);
+	    	asaas.notify("danger", "Unable to load list of users", ajaxErrorObject);
 	    }
 	});
 }
 
-asaas.components.RepositoryList.prototype.editItem	= function(itemid){
+asaas.components.UserList.prototype.editItem	= function(itemid){
 	var self = this;
-	var $modal = asaas.loadModalPopup("saveItemModal", "Edit Site");
+	var $modal = asaas.loadModalPopup("saveItemModal", "Edit User");
 	var $modalbody = $(".modal-body", $modal);
 	window.setTimeout(function(){
-		asaas.loadComponent("repository", false, $modalbody, {"id":itemid});
+		asaas.loadComponent("user", false, $modalbody, {"id":itemid});
 		$(".btn-save", $modal).unbind('click').bind('click', function (e) {
-			var success = asaas.model["repository"].save();
+			var success = asaas.model["user"].save();
 			if(success){
 				$(".btn-close", $modal).click();
-		    	asaas.notify("success", "Site saved.");
+		    	asaas.notify("success", "User saved.");
 				self.init(self.container);
 			}
 		});
 	},1);
 };
 
-asaas.components.RepositoryList.prototype.deleteItem = function(itemid){
+asaas.components.UserList.prototype.deleteItem = function(itemid){
 	var self = this;
-	bootbox.confirm("Are you sure you want to delete this site?", function(result) {
+	bootbox.confirm("Are you sure you want to delete this user?", function(result) {
 		if(result){
-			var url = asaas.servicesctx + "/repository?id="+itemid;
+			var url = asaas.servicesctx + "/user?id="+itemid;
 			var success = false;
 			var response = $.ajax({
 				url: url,
@@ -90,12 +90,12 @@ asaas.components.RepositoryList.prototype.deleteItem = function(itemid){
 					success = true;
 				},
 			    error: function(ajaxErrorObject){
-			    	asaas.notify("danger", "Unable to delete repository", ajaxErrorObject);
+			    	asaas.notify("danger", "Unable to delete user", ajaxErrorObject);
 			    	success = false;
 			    }
 			});
 			if(success){
-		    	asaas.notify("success", "Site deleted.");
+		    	asaas.notify("success", "User deleted.");
 				self.init(self.container);
 			}
 		}
@@ -104,4 +104,4 @@ asaas.components.RepositoryList.prototype.deleteItem = function(itemid){
 
 //This ties it to the model on load.  The asaas library will call .init
 //the array value must match the id/name of the component
-asaas.model["repositorylist"] = new asaas.components.RepositoryList();
+asaas.model["userlist"] = new asaas.components.UserList();

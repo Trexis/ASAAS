@@ -17,6 +17,9 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="<%=contextRoot%>/statics/theme/dist/js/sb-admin-2.js"></script>
+
+    <!-- bootbox -->
+    <script src="<%=contextRoot%>/statics/lib/bootbox/bootbox.min.js"></script>
     
     <!-- ASaaS JavaScript -->
     <script src="<%=contextRoot%>/statics/lib/asaas.js"></script>

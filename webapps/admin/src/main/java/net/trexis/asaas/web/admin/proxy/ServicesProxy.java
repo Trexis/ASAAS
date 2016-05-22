@@ -53,6 +53,12 @@ public class ServicesProxy extends RestTemplate {
 		ResponseEntity<String> response = this.exchange(uri, HttpMethod.GET,  new HttpEntity<String>(createHeaders(username, password)), String.class);
 		return response.getBody();
 	}
+
+	public String restDelete(String relativeUri) throws MalformedURLException, URISyntaxException{
+		String uri = getFullUri(relativeUri);
+		ResponseEntity<String> response = this.exchange(uri, HttpMethod.DELETE,  new HttpEntity<String>(createHeaders(username, password)), String.class);
+		return response.getBody();
+	}
 	
 	public void setCredentials(String username, String password) throws MalformedURLException, URISyntaxException{
 		this.username = username;

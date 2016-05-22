@@ -2,7 +2,7 @@ window.asaas = {};
 window.asaas.model = [];
 window.asaas.loadComponent = function(componentName, append, container, parameters){
 	var $component_container = $(asaas.components_container_name);
-	if(typeof(container)!="undefined") $component_container = container;
+	if(typeof(container)!="undefined"&&container!=null) $component_container = container;
 	var url = asaas.ctx + "/component/" + componentName;
 	var dataAjax = $.ajax({
 		url: url,
@@ -48,7 +48,7 @@ window.asaas.loadComponent = function(componentName, append, container, paramete
 };
 
 window.asaas.notify = function(type, message, input, optionalContainer){
-	if(asaas.debug) console.log(input);
+	if(asaas.debug&&typeof(input)!="undefined") console.log(input);
 	
 	var $notifycontainer = $(asaas.notifications_container_name);
 	if(typeof(optionalContainer)!="undefined") notifycontainer = optionalContainer;
@@ -72,7 +72,9 @@ window.asaas.notify = function(type, message, input, optionalContainer){
 	
 	var $alert = $(html);
 	$notifycontainer.prepend($alert);
-	$alert.delay(5000).fadeOut(400);
+	
+	//automatically close success messages after 5 seconds
+	if(type=="success") $alert.delay(5000).fadeOut(400);
 };
 
 window.asaas.convertToPropertiesObject = function(item){

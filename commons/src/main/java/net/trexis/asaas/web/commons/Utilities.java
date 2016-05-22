@@ -30,7 +30,7 @@ public class Utilities {
 		JsonObject response = new JsonObject();
 		response.addProperty("status", status.toString());
 		response.addProperty("message", message);
-		response.add("data", jsonData);
+		response.add("data", (jsonData!=null)?jsonData:new JsonObject());
 		
 		return gson.toJson(response);
 	}

@@ -34,16 +34,24 @@ public class ServicesAuthenticationProvider implements AuthenticationProvider {
 			servicesProxy.setCredentials(username, password);
 
 			Gson gson = new Gson();
-			JsonObject jsonobject = gson.fromJson(servicesProxy.restGet("/user"), JsonObject.class);
-			JsonObject authority = (JsonObject)jsonobject.get("authority");
+			JsonObject jsonobject = gson.fromJson(servicesProxy.restGet("/session"), JsonObject.class);
+			if(jsonobject.get("status").getAsString().equals("success")){
+				JsonObject datajson = jsonobject.getAsJsonObject("data");
+				JsonObject userjson = datajson.getAsJsonObject("user");
+				JsonObject authority = userjson.getAsJsonObject("authority");
 
-			User user = new User(username, password);
-			user.setUserdata(jsonobject);
+				User user = new User(username, password);
+				user.setUserdata(userjson);
 
-			List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-			grantedAuthorities.add(new SimpleGrantedAuthority(authority.get("role").getAsString()));
+				List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+				grantedAuthorities.add(new SimpleGrantedAuthority(authority.get("role").getAsString()));
+				
+				auth = new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), grantedAuthorities);
+				
+			} else {
+				throw new Exception("Failed to obtain security from services");
+			}
 			
-			auth = new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), grantedAuthorities);
 		
 		} catch(Exception ex){
 			auth = null;

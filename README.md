@@ -21,6 +21,7 @@ Authentication = Basic base64encode(username:password)
 ###Rest Methods
 ```
 GET:	/repository?id={repositoryId}
+GET:	/repository?all={true|false}
 POST:	/repository
 {"name":"{name}", "properties":[]}
 ```

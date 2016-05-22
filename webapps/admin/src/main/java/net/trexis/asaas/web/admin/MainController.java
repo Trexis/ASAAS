@@ -103,7 +103,11 @@ public class MainController {
 			String serviceurl = getServiceURLFromRequest(request);
 			ServicesProxy servicesProxy = new ServicesProxy();
 			JsonObject jsonobject = gson.fromJson(servicesProxy.restGet(serviceurl), JsonObject.class);
-			return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+			if(jsonobject.get("status").getAsString().equals("success")){
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.FAILED_DEPENDENCY);
+			}
 		} catch(Exception ex){
 			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
 			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
@@ -111,6 +115,24 @@ public class MainController {
 		
 	}
 
+	@RequestMapping(value = "/services/**",headers = {"content-type=application/json"}, method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<String> serviceDelete(HttpServletRequest request) {
+		Gson gson = new Gson();
+		try{
+			String serviceurl = getServiceURLFromRequest(request);
+			ServicesProxy servicesProxy = new ServicesProxy();
+			JsonObject jsonobject = gson.fromJson(servicesProxy.restDelete(serviceurl), JsonObject.class);
+			if(jsonobject.get("status").getAsString().equals("success")){
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.FAILED_DEPENDENCY);
+			}
+		} catch(Exception ex){
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
+		}
+		
+	}
 	@RequestMapping(value = "/services/**",headers = {"content-type=application/json"}, method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> servicePost(@RequestBody String body, HttpServletRequest request) {
 		Gson gson = new Gson();
@@ -118,7 +140,11 @@ public class MainController {
 			String serviceurl = getServiceURLFromRequest(request);
 			ServicesProxy servicesProxy = new ServicesProxy();
 			JsonObject jsonobject = gson.fromJson(servicesProxy.restPost(serviceurl, body), JsonObject.class);
-			return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+			if(jsonobject.get("status").getAsString().equals("success")){
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.FAILED_DEPENDENCY);
+			}
 		} catch(Exception ex){
 			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
 			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);

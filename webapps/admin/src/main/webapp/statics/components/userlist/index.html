@@ -1,0 +1,25 @@
+<div class="userlist">
+	<div class="pull-right">
+		<button type="button" class="btn btn-default btn-new">Create New User</button>
+	</div>
+	<h1>System Users</h1>
+	<ul class="list-group">
+	
+	</ul>
+	<script data-template="userlist_template" type="text/html">
+{{#.}} 
+  <li class="list-group-item {{style}}">
+	<span class="pull-right">
+		<button type="button" class="btn btn-default btn-edit" data-id="{{id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+		<button type="button" class="btn btn-default btn-delete" data-id="{{id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+	</span>
+	{{#active}}
+	    <h4 class="list-group-item-heading text-info"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> {{username}}</h4>
+	{{/active}}
+	{{^active}}
+	    <h4 class="list-group-item-heading text-muted"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{username}}</h4>
+	{{/active}}
+  </li>
+{{/.}} 
+	</script>
+</div>

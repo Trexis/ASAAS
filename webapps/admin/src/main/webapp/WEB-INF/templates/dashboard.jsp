@@ -45,14 +45,30 @@
 			asaas.servicesctx = "<%=contextRoot%>/services";
 			asaas.debug = true;
 			
-			
-		    $(function () {
+		    $(document).ready(function(){
 		        $.ajaxSetup({
 		            headers: {
 		                "X-CSRF-TOKEN": "${_csrf.token}"
 		            }
 		        });
+		        asaas.loadComponent('dashboard');
 		    });
+		    
+		    function editProfile(){
+		    	var $modal = asaas.loadModalPopup("saveItemModal", "Edit User");
+		    	var $modalbody = $(".modal-body", $modal);
+		    	window.setTimeout(function(){
+		    		asaas.loadComponent("user", false, $modalbody, {"id":asaas.user.id});
+		    		$(".btn-save", $modal).unbind('click').bind('click', function (e) {
+		    			var success = asaas.model["user"].save();
+		    			if(success){
+		    				$(".btn-close", $modal).click();
+		    		    	asaas.notify("success", "User saved.");
+		    			}
+		    		});
+		    	},1);
+		    }
+		    
 		</script>    
 	</body>
 </html>
