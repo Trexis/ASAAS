@@ -43,8 +43,13 @@ public class RepositoryDAL extends BaseDAL {
 	
 	public void update(Repository item) throws Exception{
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-		String SQL = "insert into repositories (userid, name) values (?, ?) ON DUPLICATE KEY UPDATE name=?";
-		jdbcTemplate.update( SQL, item.getUserid(), item.getName(), item.getName());
+		if(item.getId()==0){
+			String SQL = "insert into repositories (userid, name) values (?, ?);";
+			jdbcTemplate.update(SQL, item.getUserid(), item.getName());
+		} else {
+			String SQL = "update repositories set userid = ?, name= ? where id=?;";
+			jdbcTemplate.update( SQL, item.getUserid(), item.getName(), item.getId());
+		}
 	}
 	
 	public Repository getRepository(int repositoryId) throws Exception{

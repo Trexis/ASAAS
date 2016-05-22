@@ -8,10 +8,13 @@ asaas.components.RepositoryList.prototype 		= {};
 
 //must always implement a .init for the asaas library to call it.
 asaas.components.RepositoryList.prototype.init	= function(container){
+	this.container = container;
+	var self = this;
 	
 	var url = asaas.servicesctx + "/repository";
 	var dataAjax = $.ajax({
 		url: url,
+		contentType: "application/json",
 		type: 'GET',
 		dataType: 'json',
 		success: function(response){
@@ -31,11 +34,15 @@ asaas.components.RepositoryList.prototype.init	= function(container){
 			//Bind Edit actions
 			$(".list-group .list-group-item .btn-edit", container).click(function(evnt){
 				var itemid = $(this).data("id");
-				var modal = asaas.loadModalPopup("saveItemModel", "Edit Repository");
-				var $modalbody = $(".modal-body", modal);
+				var $modal = asaas.loadModalPopup("saveItemModal", "Edit Repository");
+				var $modalbody = $(".modal-body", $modal);
 				window.setTimeout(function(){
 					asaas.loadComponent("repository", false, $modalbody, {"id":itemid});
+					$(".btn-save", $modal).unbind('click').bind('click', function (e) {
+						asaas.model["repository"].save();
+					});
 				},1);
+				
 			});
 			
 			

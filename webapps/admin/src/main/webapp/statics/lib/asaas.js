@@ -97,6 +97,7 @@ window.asaas.loadModalPopup = function(modelId, modalTitle){
 	$modal.on('hidden.bs.modal', function () {
 		//Set the notifications area back to where it was before this modal was loaded
 		asaas.notifications_container_name = current_notifications_container_name;
+		$(this).data('bs.modal', null);
 	})
 	
 	return $modal;

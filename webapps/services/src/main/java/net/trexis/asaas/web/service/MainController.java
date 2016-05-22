@@ -14,6 +14,7 @@ import net.trexis.asaas.web.service.model.User;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Controller
 public class MainController {
@@ -68,14 +71,13 @@ public class MainController {
 		}
 	}
 	
-	@RequestMapping(value = { "/repository" }, method = RequestMethod.POST)
-	public @ResponseBody String repositoryPost(Authentication authentication) throws Exception {
+	@RequestMapping(value = { "/repository" },headers = {"content-type=application/json"}, method = RequestMethod.POST)
+	public @ResponseBody String repositoryPost(Authentication authentication,@RequestBody String body) throws Exception {
 		Gson gson = new Gson();
 		User user = (User)authentication.getPrincipal();
 		RepositoryDAL repodal = new RepositoryDAL();
-		Repository repo = new Repository();
+		Repository repo = gson.fromJson(body, Repository.class);
 		repo.setUserid(user.getId());
-		repo.setName("test");
 		repodal.update(repo);
 		return Utilities.responseWrapper(ResponseStatus.success, gson.toJsonTree(repo));
 	}

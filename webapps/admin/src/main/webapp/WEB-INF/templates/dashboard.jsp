@@ -34,7 +34,7 @@
 	
 	    </div>
 	    <!-- /#wrapper -->	
-		<jsp:include page="includes/model.jsp"/>
+		<jsp:include page="includes/modal.jsp"/>
 		<jsp:include page="includes/footer.jsp"/>
 		<jsp:include page="includes/user.jsp"/>
 		<script>
@@ -44,6 +44,15 @@
 			asaas.ctx = "<%=contextRoot%>";
 			asaas.servicesctx = "<%=contextRoot%>/services";
 			asaas.debug = true;
+			
+			
+		    $(function () {
+		        $.ajaxSetup({
+		            headers: {
+		                "X-CSRF-TOKEN": "${_csrf.token}"
+		            }
+		        });
+		    });
 		</script>    
 	</body>
 </html>

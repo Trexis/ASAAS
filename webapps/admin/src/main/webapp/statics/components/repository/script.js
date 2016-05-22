@@ -3,11 +3,14 @@ if(typeof(window.asaas.components)=="undefined") window.asaas.components = {};
 
 asaas.components.Repository = function(){
 	this.container;
+	this.id;
 };
 asaas.components.Repository.prototype 		= {};
 //must implement a .init for the asaas library to call it.
 asaas.components.Repository.prototype.init	= function(container, parameters){
-
+	this.container = container;
+	var self = this;
+	
 	var mustache_template = $("script[data-template='repositoryitem_template']", container).html();
 	var $formcontainer = $(".form-horizontal", container);
 	$formcontainer.empty();
@@ -15,11 +18,14 @@ asaas.components.Repository.prototype.init	= function(container, parameters){
 	if(parameters.id==null){
 		var $htmlresults = $(Mustache.to_html(mustache_template, {}));
 		$formcontainer.append($htmlresults);
+		this.id=null;
 	} else {
+		this.id=parameters.id;
 		var url = asaas.servicesctx + "/repository?id=" + parameters.id;
 		var dataAjax = $.ajax({
 			url: url,
 			type: 'GET',
+			contentType: "application/json",
 			dataType: 'json',
 			success: function(response){
 				//Convert items to properties, and add additional objects to use
@@ -31,16 +37,51 @@ asaas.components.Repository.prototype.init	= function(container, parameters){
 				//Render the list of items using mustach
 				var $htmlresults = $(Mustache.to_html(mustache_template, response.data));
 				$formcontainer.append($htmlresults);
-				
+				self.setCheckboxes($htmlresults, item);
 				
 			},
 		    error: function(ajaxErrorObject){
-				console.log(this)
 		    	asaas.notify("danger", "Unable to load repository", ajaxErrorObject);
 		    }
 		});
 		
 	}
+}
+
+asaas.components.Repository.prototype.setCheckboxes = function(container, item){
+	if(typeof(item.properties.enableapimanagement)!="undefined" && item.properties.enableapimanagement=="false") $(".itemapimanagement", container).removeAttr("checked");
+	if(typeof(item.properties.enablecache)!="undefined" && item.properties.enablecache=="false") $(".itemcache", container).removeAttr("checked");
+	if(typeof(item.properties.enablesession)!="undefined" && item.properties.enablesession=="false") $(".itemsessionmanagement", container).removeAttr("checked");
+}
+
+
+asaas.components.Repository.prototype.save = function(){
+	var item = {};
+	item.name = $("#itemname", this.container).val();
+	item.id=this.id;
+	item.properties = [];
+	item.properties[0] = {name:"description", value:$("#itemdescription", this.container).val()};
+	item.properties[1] = {name:"siteurl", value:$("#itemurl", this.container).val()};
+	item.properties[2] = {name:"loginurl", value:$("#itemloginurl", this.container).val()};
+	item.properties[3] = {name:"enablesession", value:$(".itemsessionmanagement", this.container).is(':checked')};
+	item.properties[4] = {name:"enablecache", value:$(".itemcache", this.container).is(':checked')};
+	item.properties[5] = {name:"enableapimanagement", value:$(".itemapimanagement", this.container).is(':checked')};
+
+	console.log("v1")
+	var url = asaas.servicesctx + "/repository";
+	var dataAjax = $.ajax({
+		url: url,
+		type: 'POST',
+		contentType: "application/json; charset=utf-8",
+		dataType: 'json',
+		data:JSON.stringify(item),
+		success: function(response){
+			return true;
+		},
+	    error: function(ajaxErrorObject){
+	    	asaas.notify("danger", "Unable to save repository", ajaxErrorObject);
+	    }
+	});
 }
 
 //This ties it to the model on load.  The asaas library will call .init

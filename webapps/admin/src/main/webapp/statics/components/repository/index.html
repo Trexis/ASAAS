@@ -1,18 +1,89 @@
 <div class="repository">
 	<div class="form-horizontal">
+
 	</div>
 	<script data-template="repositoryitem_template" type="text/html">
-	<div class="form-group">
-		<label for="itemname">Name</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="itemname" placeholder="Enter name here" value={{name}}></input>
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href=".tab-settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+		<li role="presentation"><a href=".tab-security" aria-controls="security" role="tab" data-toggle="tab">Security</a></li>
+		<li role="presentation"><a href=".tab-api" aria-controls="api" role="tab" data-toggle="tab">API Management</a></li>
+	</ul>
+	
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane fade in active tab-settings">
+			<br/>
+			<div class="form-group">
+				<label for="itemname" class="col-sm-3 control-label">Name</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="itemname" placeholder="Enter name here" value="{{name}}"></input>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="itemdescription" class="col-sm-3 control-label">Description</label>
+				<div class="col-sm-9">
+				<textarea type="text" class="form-control" id="itemdescription" placeholder="Enter a short description here">{{properties.description}}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="itemurl" class="col-sm-3 control-label">Home URL</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="itemurl" placeholder="http://www.sitenamehere.com" value={{properties.homeurl}}></input>
+					<span id="helpBlock" class="help-block">The is home page of the website or repository we will use as starting point to provide this site as a service</span>
+				</div>
+			</div>		
+		</div>
+		<div role="tabpanel" class="tab-pane fade tab-security">
+			<br/>
+			<div class="form-group">
+				<label for="itemloginurl" class="col-sm-3 control-label">Login URL</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="itemloginurl" placeholder="http://www.sitenamehere.com/login" value={{properties.loginurl}}></input>
+					<span id="helpBlock" class="help-block">The is the URL to the site or repository login page.  Users are prompted to provide authentication credentials for this login.  Leave this empty if the site does not require authentication by visitors.</span>
+				</div>
+			</div>		
+			<div class="form-group">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-11">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" class="itemsessionmanagement" checked="true">
+							Enable Session Management
+						</label>
+					</div>
+					<span id="helpBlock" class="help-block">Session management stores the user session, and will reuse the last successfull session for requests to the site or repository.  Users are not prompted to provide authentication credentials again until this session expire or authentication fails.</span>
+				</div>
+			</div>			</div>
+		<div role="tabpanel" class="tab-pane fade tab-api">
+			<br/>
+			<div class="form-group">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-11">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" class="itemapimanagement" checked="true">
+							Enable API Management
+						</label>
+					</div>
+					<span id="helpBlock" class="help-block">API Management will automatically create a definition of what the site or repository return should be.  It will then validate responses against this definition before returning the data.</span>
+				</div>
+			</div>				
+			<div class="form-group">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-11">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" class="itemcache" checked="true">
+							Return cached data on failure
+						</label>
+					</div>
+					<span id="helpBlock" class="help-block">The system will return the last cached data in case a error occurs trying to communicate to the site or repository.</span>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="itemdescription">Description</label>
-		<div class="col-sm-10">
-		<textarea type="text" class="form-control" id="itemdescription" placeholder="Enter a short description here">{{properties.description}}</textarea>
-		</div>
-	</div>
+
 	</script>
+
+	
+
 </div>

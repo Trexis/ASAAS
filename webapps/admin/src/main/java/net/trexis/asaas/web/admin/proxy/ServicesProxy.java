@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 import net.trexis.asaas.web.admin.model.User;
 import net.trexis.asaas.web.configuration.ASaaSProperties;
@@ -13,9 +14,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 public class ServicesProxy extends RestTemplate {
@@ -34,8 +38,13 @@ public class ServicesProxy extends RestTemplate {
 	}
 	
 	public String restPost(String relativeUri) throws MalformedURLException, URISyntaxException{
+		return restPost(relativeUri, null);
+	}
+	public String restPost(String relativeUri, String body) throws MalformedURLException, URISyntaxException{
 		String uri = getFullUri(relativeUri);
-		ResponseEntity<String> response = this.exchange(uri, HttpMethod.POST,  new HttpEntity<String>(createHeaders(username, password)), String.class);
+		this.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, createHeaders(username, password));
+		ResponseEntity<String> response = this.exchange(uri, HttpMethod.POST,  httpEntity, String.class);
 		return response.getBody();
 	}
 	
@@ -51,7 +60,7 @@ public class ServicesProxy extends RestTemplate {
 	}
 	
 	private HttpHeaders createHeaders(final String username, final String password ){
-		   return new HttpHeaders(){
+		   HttpHeaders headers = new HttpHeaders(){
 		      {
 		         String auth = username + ":" + password;
 		         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")) );
@@ -59,6 +68,8 @@ public class ServicesProxy extends RestTemplate {
 		         set("Authorization", authHeader);
 		      }
 		   };
+		   headers.setContentType(MediaType.APPLICATION_JSON);
+		   return headers;
 		}
 	
 	private void loadCredentialsFromContext(){

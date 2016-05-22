@@ -1,5 +1,7 @@
 package net.trexis.asaas.web.admin;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,26 +96,42 @@ public class MainController {
 		}
 	}
 
-	@RequestMapping(value = "/services/**", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> service(HttpServletRequest request) {
+	@RequestMapping(value = "/services/**",headers = {"content-type=application/json"}, method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> serviceGet(HttpServletRequest request) {
 		Gson gson = new Gson();
 		try{
-			String method = request.getMethod();
 			String serviceurl = getServiceURLFromRequest(request);
-			
 			ServicesProxy servicesProxy = new ServicesProxy();
-			JsonObject jsonobject;
-			if(method.equals("GET")){
-				jsonobject = gson.fromJson(servicesProxy.restGet(serviceurl), JsonObject.class);
-			} else {
-				jsonobject = gson.fromJson(servicesProxy.restPost(serviceurl), JsonObject.class);
-			}
+			JsonObject jsonobject = gson.fromJson(servicesProxy.restGet(serviceurl), JsonObject.class);
 			return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
 		} catch(Exception ex){
 			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
 			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
 		}
 		
+	}
+
+	@RequestMapping(value = "/services/**",headers = {"content-type=application/json"}, method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> servicePost(@RequestBody String body, HttpServletRequest request) {
+		Gson gson = new Gson();
+		try{
+			String serviceurl = getServiceURLFromRequest(request);
+			ServicesProxy servicesProxy = new ServicesProxy();
+			JsonObject jsonobject = gson.fromJson(servicesProxy.restPost(serviceurl, body), JsonObject.class);
+			return new ResponseEntity<String>(jsonobject.toString(),HttpStatus.OK);
+		} catch(Exception ex){
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
+		}
+		
+	}
+
+	private MultiValueMap<String,String[]> convertParameterMap(Map<String,String[]> requestMap){
+		MultiValueMap<String,String[]> response = new LinkedMultiValueMap<String, String[]>();
+		for(String key: requestMap.keySet()){
+			response.add(key, requestMap.get(key));
+		}
+		return response;
 	}
 	
 	private String getServiceURLFromRequest(HttpServletRequest request){	
