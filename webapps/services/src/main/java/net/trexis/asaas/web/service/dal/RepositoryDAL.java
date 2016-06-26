@@ -89,6 +89,18 @@ public class RepositoryDAL extends BaseDAL {
         	throw new ItemNotFoundException(ex);
         }
 	}
+
+	public Repository getRepository(String repositoryName, int userId) throws Exception{
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+        String sql = "SELECT * from repositories where name='" + repositoryName + "' and userid=" + userId + ";";
+        try{
+        	Repository item = jdbcTemplate.queryForObject(sql, rowMapper());
+	        item.setProperties(this.listProperties(item.getId(), ItemType.Repository));
+			return item;
+        } catch(EmptyResultDataAccessException ex){
+        	throw new ItemNotFoundException(ex);
+        }
+	}
 	
 	private RowMapper<Repository> rowMapper(){
 		return new RowMapper<Repository>() {

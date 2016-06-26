@@ -11,7 +11,7 @@
 	
 	<artifactId>configuration</artifactId>
 	<packaging>jar</packaging>
-	<name>configuration</name>
+    <name>treXis :: ASaaS :: Configuration</name>
 
 	<dependencies>
 		<dependency>

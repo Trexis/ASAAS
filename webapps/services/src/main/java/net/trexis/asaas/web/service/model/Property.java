@@ -1,6 +1,6 @@
 package net.trexis.asaas.web.service.model;
 
-public class Property extends BaseModel {
+public class Property{
 
 	private String name;
 	private String value;

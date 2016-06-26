@@ -2,7 +2,7 @@
 All functionality is provided using the services application.  The admin interface creates a proxy to the service application and provide a user interface to the administration of the services.
 
 
-##Admin
+##Administrator Website
 Authentication is done using username and password.
 
 ###Rest Methods
@@ -12,7 +12,7 @@ POST:	/services/{servicesURLtoProxy}
 {postdata}
 ```
 
-##Services
+##Services Website
 Authentication is done using username and password.  Pass the following header information with your requests to gain access:
 ```
 Authentication = Basic base64encode(username:password)
@@ -25,3 +25,6 @@ GET:	/repository?all={true|false}
 POST:	/repository
 {"name":"{name}", "properties":[]}
 ```
+
+##Service Library
+The services library makes use of Jsoup for proxy of the repository

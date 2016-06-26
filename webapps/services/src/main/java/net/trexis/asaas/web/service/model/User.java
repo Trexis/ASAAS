@@ -15,7 +15,6 @@ public class User extends BaseModel implements Principal  {
 	private String password;
 	private SimpleGrantedAuthority authority;
 	private Boolean active;
-	private List<Property> properties;
 	
 	public int getId() {
 		return id;
@@ -63,14 +62,6 @@ public class User extends BaseModel implements Principal  {
 
 	public String getName() {
 		return username;
-	}
-
-	public List<Property> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(List<Property> properties) {
-		this.properties = properties;
 	}
 
 	

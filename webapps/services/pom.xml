@@ -35,7 +35,11 @@
 			<artifactId>commons</artifactId>
 			<version>1.0-BETA</version>
 		</dependency>
-			
+		<dependency>
+			<groupId>net.trexis</groupId>
+			<artifactId>service</artifactId>
+			<version>1.0-BETA</version>
+		</dependency>			
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>

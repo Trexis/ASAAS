@@ -115,6 +115,20 @@ public class MainController {
 		
 	}
 
+	@RequestMapping(value = "/serviceshtml/**",headers = {"content-type=text/html"}, method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> serviceGetHtml(HttpServletRequest request) {
+		Gson gson = new Gson();
+		try{
+			String serviceurl = getServiceURLFromRequest(request);
+			ServicesProxy servicesProxy = new ServicesProxy();
+			return new ResponseEntity<String>(servicesProxy.restGet(serviceurl),HttpStatus.OK);
+		} catch(Exception ex){
+			String jsonresponse = Utilities.responseWrapper(ResponseStatus.error, ex.getMessage(), gson.toJsonTree(ex));
+			return new ResponseEntity<String>(jsonresponse,HttpStatus.FAILED_DEPENDENCY);
+		}
+		
+	}
+	
 	@RequestMapping(value = "/services/**",headers = {"content-type=application/json"}, method = RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<String> serviceDelete(HttpServletRequest request) {
 		Gson gson = new Gson();

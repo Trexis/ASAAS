@@ -34,6 +34,11 @@ asaas.components.RepositoryList.prototype.init	= function(container, parameters)
 			var $htmlresults = $(Mustache.to_html(mustache_template, response.data));
 			$(".list-group", container).empty();
 			$(".list-group", container).append($htmlresults);
+
+			//Bind view actions
+			$(".list-group .list-group-item .btn-view", container).click(function(evnt){
+				self.viewItem($(this).data("id"),$(this).data("name"));
+			});
 			
 			//Bind Edit actions
 			$(".list-group .list-group-item .btn-edit", container).click(function(evnt){
@@ -56,6 +61,16 @@ asaas.components.RepositoryList.prototype.init	= function(container, parameters)
 	    }
 	});
 }
+
+asaas.components.RepositoryList.prototype.viewItem	= function(itemid, itemname){
+	var self = this;
+	var $modal = asaas.loadModalPopup("viewItemModal", "View Site");
+	var $modalbody = $(".modal-body", $modal);
+	window.setTimeout(function(){
+		asaas.loadComponent("repositoryview", false, $modalbody, {"id":itemid,"name":itemname});
+	},1);
+};
+
 
 asaas.components.RepositoryList.prototype.editItem	= function(itemid){
 	var self = this;

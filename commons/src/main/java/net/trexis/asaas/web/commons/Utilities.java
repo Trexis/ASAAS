@@ -1,6 +1,8 @@
 package net.trexis.asaas.web.commons;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -41,4 +45,11 @@ public class Utilities {
 	  return new String(encoded, "utf-8");
 	}
 	
+	public static String getBaseUrlFromRequest(HttpServletRequest request) throws MalformedURLException{
+		URL url = new URL(request.getScheme(), 
+		        request.getServerName(), 
+		        request.getServerPort(), 
+		        request.getContextPath());
+		return url.toString();
+	}
 }

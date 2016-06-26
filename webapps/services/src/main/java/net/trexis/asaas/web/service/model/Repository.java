@@ -7,7 +7,6 @@ public class Repository extends BaseModel  {
 	private int id;
 	private int userid;
 	private String name;
-	private List<Property> properties;
 	
 	public String getName() {
 		return name;
@@ -32,15 +31,5 @@ public class Repository extends BaseModel  {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public List<Property> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(List<Property> properties) {
-		this.properties = properties;
-	}
-
-	
 	
 }

@@ -13,7 +13,7 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	        </button>
-	        <a class="navbar-brand" href="dashboard">Any Site as a Service Dashboard</a>
+	        <a class="navbar-brand" href="dashboard"><img src="statics/theme/logo/trexis.png" class="pull-left"/> Any Site as a Service Dashboard</a>
 	    </div>
 	    <!-- /.navbar-header -->
 	
