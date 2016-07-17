@@ -1,0 +1,23 @@
+<div class="sessionslist">
+	<h1>Sessions</h1>
+	<ul class="listtable">
+	
+	</ul>
+	<script data-template="sessionslist_template" type="text/html">
+	<table style="overflow:auto;width:100%;height:100%">
+{{#.}} 
+	<tr>
+		<td>{{repository}}
+		</td>
+		<td>{{started}}
+		<td/>
+		<td>{{lastviewed}}
+		</td>
+		<td>
+		<button type="button" class="btn btn-default btn-delete" data-id="{{id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+		</td>
+	</tr>
+{{/.}} 
+	</table>
+	</script>
+</div>

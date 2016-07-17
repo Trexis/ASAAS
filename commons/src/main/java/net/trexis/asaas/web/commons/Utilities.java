@@ -3,7 +3,6 @@ package net.trexis.asaas.web.commons;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -19,6 +18,10 @@ import com.google.gson.JsonObject;
 
 public class Utilities {
 
+	public static  java.sql.Date utilDateToSQLDate(java.util.Date utilDate){
+		return new java.sql.Date(utilDate.getTime());
+	}
+	
 	public static String dateTimeToISO(Long dateLong){
 		TimeZone tz = TimeZone.getTimeZone("UTC");
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -52,4 +55,5 @@ public class Utilities {
 		        request.getContextPath());
 		return url.toString();
 	}
+	
 }

@@ -16,5 +16,7 @@
 	</authentication-manager>
 	<beans:bean id="databaseAuthProvider" class="net.trexis.asaas.web.service.security.DatabaseAuthenticationProvider"/>
 
+	<beans:bean id="sessionKeyGenerator" class="net.trexis.asaas.web.service.component.impl.SessionKeyGeneratorImpl"/>
+	<beans:bean id="asaasProperties" class="net.trexis.asaas.web.configuration.ASaaSProperties"/>
 
 </beans:beans>

@@ -46,7 +46,7 @@
 	                    <a href="javascript:asaas.loadComponent('repositorylist',false,null,{'all':false})"><i class="fa fa-sitemap fa-fw"></i> My Sites</a>
 	                </li>
 	                <li>
-	                    <a href="javascript:asaas.loadComponent('sessionlist',false,null,{'all':true})"><i class="fa fa-files-o fa-fw"></i> Active Sessions</a>
+	                    <a href="javascript:asaas.loadComponent('sessionslist',false,null,{'all':true})"><i class="fa fa-files-o fa-fw"></i> Active Sessions</a>
 	                </li>
 	                <sec:authorize access="hasRole('ADMIN')">
 	                <li>

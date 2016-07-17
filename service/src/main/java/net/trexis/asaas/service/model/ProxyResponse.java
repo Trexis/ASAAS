@@ -14,6 +14,7 @@ public class ProxyResponse {
 	private String url = "";
 	private String rawresponse = "";
 	private String cleanresponse = "";
+	private String sessionkey = "";
 	
 	public ProxyResponse(){
 		
@@ -21,7 +22,7 @@ public class ProxyResponse {
 	
 	public ProxyResponse(HttpRequestMethod method, String baseUrl, String url){
 		this.method = method;
-		this.baseurl = baseurl;
+		this.baseurl = baseUrl;
 		this.url = url;
 	}
 	
@@ -57,6 +58,12 @@ public class ProxyResponse {
 	}
 	public void setMethod(HttpRequestMethod method) {
 		this.method = method;
+	}
+	public String getSessionkey() {
+		return sessionkey;
+	}
+	public void setSessionkey(String sessionkey) {
+		this.sessionkey = sessionkey;
 	}
 
 	@Override

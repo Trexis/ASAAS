@@ -14,14 +14,14 @@ asaas.components.RepositoryView.prototype.init	= function(container, parameters)
 	//We only set parameters when component created
 	if(typeof(parameters)!="undefined") this.params = parameters;
 	
-	var url = asaas.servicesctx + "/serviceshtml/" + this.params.name;
+	var url = asaas.servicesctx + "/service/" + this.params.name;
 	var dataAjax = $.ajax({
 		url: url,
 		contentType: "text/html",
 		type: 'GET',
 		dataType: 'html',
 		success: function(response){
-			$(".html", container).html(response);
+			$(".htmlframe", container).contents().find('html').html(response);
 		},
 	    error: function(ajaxErrorObject){
 	    	asaas.notify("danger", "Unable to view site", ajaxErrorObject);

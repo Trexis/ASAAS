@@ -115,7 +115,7 @@ public class MainController {
 		
 	}
 
-	@RequestMapping(value = "/serviceshtml/**",headers = {"content-type=text/html"}, method = RequestMethod.GET)
+	@RequestMapping(value = "/services/**",method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> serviceGetHtml(HttpServletRequest request) {
 		Gson gson = new Gson();
 		try{

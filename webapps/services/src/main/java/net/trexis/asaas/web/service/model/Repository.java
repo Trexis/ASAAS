@@ -1,7 +1,5 @@
 package net.trexis.asaas.web.service.model;
 
-import java.util.List;
-
 public class Repository extends BaseModel  {
 
 	private int id;

@@ -1,12 +1,13 @@
 package net.trexis.asaas.web.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
 
 public class BaseModel {
 
-	private List<Property> properties;
+	private List<Property> properties = new ArrayList<Property>();
 
 	public String toJson(){
 		Gson gson = new Gson();
